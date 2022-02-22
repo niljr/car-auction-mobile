@@ -1,14 +1,17 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { Image, ScrollView, View } from "react-native"
-import { Button, ButtonGroup, Rating } from 'react-native-elements';
+import { Button, ButtonGroup } from 'react-native-elements';
 import Card from "../../components/base/Card";
 import Typography from "../../components/base/Typography";
 import Colors from "../../constants/Colors";
+import { height } from "../../styles";
 import styles from './carStyle';
 
 type Props = {
-    cardData: cardDataType
+    cardData: cardDataType,
+    toggleOverlay: any,
+    isBidPlace: boolean
 }
 
 type cardDataType = {
@@ -25,7 +28,7 @@ type cardDataType = {
     plateNo: string
 }
 
-const CarScreen = ({ cardData }: Props) => {
+const CarScreen = ({ cardData, toggleOverlay, isBidPlace }: Props) => {
 
     const { brand, model, year, mileage, transmission, plateNo, color } = cardData;
 
@@ -65,7 +68,7 @@ const CarScreen = ({ cardData }: Props) => {
                             <Typography>{plateNo}</Typography>
                         </View>
                         <Button title='1 Week Documents' buttonStyle={{ backgroundColor: 'green', marginVertical: 10 }}/>
-                        <Button title='BID NOW' buttonStyle={{ backgroundColor: 'red' }}/>
+                        <Button title='BID NOW' buttonStyle={{ backgroundColor: 'red' }} onPress={toggleOverlay} disabled={isBidPlace}/>
                     </View>
                </Card>
            </View>
@@ -86,29 +89,43 @@ const CarScreen = ({ cardData }: Props) => {
                <Typography>1d 23h 15m</Typography>
            </Card>
 
-           <Card style={{ borderColor: 'black', borderWidth: 1, marginTop: 20 }}>
-               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20,  }}>
+           <Card style={{ borderColor: 'black', borderWidth: 1, marginTop: 20, height: height / 4 }}>
+               <ScrollView>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,  }}>
                     <Typography>27th May</Typography>
                     <Typography>13:35</Typography>
                     <Typography>P420,000</Typography>
                </View>
-               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20,  }}>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,  }}>
                     <Typography>27th May</Typography>
                     <Typography>13:35</Typography>
                     <Typography>P420,000</Typography>
                </View>
-               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20,  }}>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,  }}>
                     <Typography>27th May</Typography>
                     <Typography>13:35</Typography>
                     <Typography>P420,000</Typography>
                </View>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,  }}>
+                    <Typography>27th May</Typography>
+                    <Typography>13:35</Typography>
+                    <Typography>P420,000</Typography>
+               </View>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,  }}>
+                    <Typography>27th May</Typography>
+                    <Typography>13:35</Typography>
+                    <Typography>P420,000</Typography>
+               </View>
+               
+               </ScrollView>
            </Card>
 
            <Typography size={14} style={{ marginVertical: 20 }}><FontAwesome name="map-marker" size={15}/> xxx Bank xx., Quezon city, Manila(Mon-wed 9:00-17:00)</Typography>
                             
-           <Button title='BID NOW' buttonStyle={{ backgroundColor: 'red' }}/>
+           <Button title={isBidPlace ? 'You\'re currently leading the bid' : 'Bid now'} buttonStyle={{ backgroundColor: 'red' }} onPress={toggleOverlay} disabled={isBidPlace}/>
        </View>
     )
 }
+
 
 export default CarScreen;
