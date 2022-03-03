@@ -5,11 +5,22 @@ import { Rating } from 'react-native-elements';
 import Card from "../../components/base/Card";
 import Typography from "../../components/base/Typography";
 import Colors from "../../constants/Colors";
+import formatMoney from "../../lib/formatMoney";
 import styles from './carsStyle';
 
 type Props = {
     carList: any,
-    handleGotoCarInfo: () => null
+    handleGotoCarInfo: any
+}
+
+type CarProps = {
+    _id: string,
+    brand: string,
+    model: string,
+    year: string,
+    mileage: string,
+    suggestedPrice: number,
+    date: Date
 }
 
 const CarsSCreen = ({ carList, handleGotoCarInfo }: Props) => {
@@ -25,9 +36,9 @@ const CarsSCreen = ({ carList, handleGotoCarInfo }: Props) => {
             <Typography size={12}>150 cars for next auction</Typography>
             <ScrollView>
                 <View style={styles.list}>
-                        {carList.map((car: any) => (
-                            <Card style={{ flexDirection: 'row',widht: '100%', marginVertical: 5 }} key={car.id} onPress={handleGotoCarInfo}>
-                                <Image source={{ uri:car.image }} style={styles.carImage}/>
+                        {carList?.vehicles?.length > 0 ?  carList.vehicles.map((car: CarProps) => (
+                            <Card style={{ flexDirection: 'row',widht: '100%', marginVertical: 5 }} key={car._id} onPress={() => handleGotoCarInfo(car._id)}>
+                                <Image source={{ uri:'http://ford.prodealerwebsites.com.au/specials/default.png' }} style={styles.carImage} resizeMode='contain'/>
                                 <View style={{ width: '73%' }}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Typography>{car.brand} | {car.model}</Typography>
@@ -40,12 +51,15 @@ const CarsSCreen = ({ carList, handleGotoCarInfo }: Props) => {
                                         <Typography color='mediumGray'>{car.year}</Typography>
                                         <Typography color='mediumGray'>{car.mileage} km</Typography>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Typography style={{ paddingRight: 10 }}>₱ {car.price}</Typography>
+                                        <Typography style={{ paddingRight: 10 }}>{formatMoney(car.suggestedPrice)}</Typography>
                                         <Typography>{car.date}</Typography>
                                     </View>
                                 </View>
                             </Card>
-                        ))}
+                        ))
+                        :
+                        <Typography>Loading...</Typography>
+                    }
                     </View>
             </ScrollView>
        </View>
